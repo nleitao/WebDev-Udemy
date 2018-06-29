@@ -1,0 +1,106 @@
+var express=require("express");
+var app=express();
+var bodyParser=require("body-parser");
+var mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost/yelp_camp");
+
+//schema set up
+var campgroundSchema=new mongoose.Schema({
+   name:String,
+   image: String,
+   description: String
+});
+
+var Campground=mongoose.model("Campground",campgroundSchema);
+
+
+// Campground.create(
+//     {
+//         name:"ad Creek3312",
+//         image:"data:image/jpeg;base64,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",
+//         description:"here is a desc."
+//     }, function(err,campground){
+//         if(err){
+//             console.log(err);
+//           } else {
+//               console.log(campground);
+//           }
+//     });
+    
+    
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.set("view engine","ejs");
+
+app.get("/",function(req,res){
+    res.render("landing");
+});
+
+
+
+
+
+// var campgrounds=[
+//         // {name:"Salmon Creek",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtStn-sBB004Jj-a1g_puWH6dmX5HvOedwo0XXxSZ4mYjjOT92"},
+//         // {name:"jalk bg",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQam7Ab2Ts8_GQ74Zwkcq-aPn1QTayPfj-epvOaoAiazqLU3MrXbg"},
+//         // {name:"sadasd Creek",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTh6t2NA_FGN04vY95Y7zTP1hP-1j1NzZPgpCXv9wN840u9Rdf6MA"},
+//         {name:"ad Creek3312",image:"data:image/jpeg;base64,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"}
+//         ];
+
+app.get("/campgrounds",function(req,res){
+    //Get all campgrounds from DB and render file
+    Campground.find({},function(err, allCampgrounds){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("index",{campgrounds:allCampgrounds});
+        }});
+// res.render("campgrounds",{campgrounds:campgrounds});        
+});
+
+
+app.post("/campgrounds",function(req,res){
+    //get data from form and add to campgrounds array
+    var newName=req.body.name;
+    var newImage=req.body.image;
+    var newDescription=req.body.description;
+    
+    var newItem={name:newName,image:newImage,description:newDescription};
+    // campgrounds.push(newItem);
+    
+    //create a new campground and save to DB
+    
+    Campground.create(newItem,function(err, newlyCreated){
+        
+        if(err){
+            console.log(err);
+            } else {
+                res.redirect("/campgrounds");
+            }
+        
+    });
+});
+
+app.get("/campgrounds/new",function(req,res){
+   res.render("new.ejs"); 
+    
+});
+
+app.get("/campgrounds/:id",function(req,res){
+    
+    //find the campground with provided ID
+    Campground.findById(req.params.id,function(err,foundCampground){
+        if(err){
+            console.log(err);
+        } else {
+        res.render("show",{campground:foundCampground});     
+        }
+    });
+});
+
+
+
+app.listen(process.env.PORT, process.env.IP,function(){
+    console.log("YelpCamp Server has started!");
+});
